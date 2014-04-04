@@ -1,0 +1,74 @@
+{
+  "api": {
+    "google": {
+      "clientId": "@@@@@",
+      "clientSecret": "@@@@@"
+    }
+  },
+  "cookie": {
+    "secret": "UlTiMaTeSeCrEtKeY"
+  },
+  "db": {
+    "mongo": {
+      "host": "localhost",
+      "port": 27017,
+      "username": null,
+      "password": null,
+      "db": "at-assistant"
+    },
+    "redis": {
+      "host": "localhost",
+      "port": 6379,
+      "password": null,
+      "namespace": "at-assistant"
+    }
+  },
+  "log": {
+    "_use": [
+      "console",
+      "sns"
+    ],
+    "transport": {
+      "console": {
+        "level": "debug"
+      },
+      "file": {
+        "level": "error"
+      },
+      "mongo": {
+        "level": "error"
+      },
+      "sns": {
+        "level": "error",
+        "subscriber": "@@@@@",
+        "topicArn": "@@@@@"
+      }
+    }
+  },
+  "mail": {
+    "_use": "ses",
+    "transport": {
+      "ses": {},
+      "smtp": {
+        "host": "@@@@@",
+        "port": 25,
+        "username": "@@@@@",
+        "password": "@@@@@",
+        "secure": false
+      }
+    }
+  },
+  "session": {
+    "_use": "redis",
+    "key": "sid",
+    "secret": "UlTiMaTeSeCrEtKeY",
+    "store": {
+      "mongo": {
+        "collection": "sessions"
+      },
+      "redis": {
+        "prefix": "ultimate-seed:sessions"
+      }
+    }
+  }
+}

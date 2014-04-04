@@ -1,0 +1,10 @@
+.DS_Store
+/.cachebust
+/.git.*/
+/.gitignore.*
+/.tmp/
+/client/js/node_modules/bower_components/
+/client-built/
+/log/
+/node_modules/
+/npm-debug.log
