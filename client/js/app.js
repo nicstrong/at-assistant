@@ -4,15 +4,20 @@
 
 var _ = require('lodash'),
   $ = require('jquery'),
+  moment = require('moment'),
   angular = require('angular');
 
 var ngModule = angular.module('app', [
   'ngAnimate',
   'ngCookies',
   'ngSanitize',
-
   'ui.router',
-  'restangular'
+  'ui.bootstrap',
+  'restangular',
+  'app.shared',
+  'app.layout',
+  'app.auth',
+  'app.main'
 ]);
 
 
@@ -21,14 +26,14 @@ ngModule.config(function ($locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-// Set Restangular base URL.
-ngModule.config(function (RestangularProvider) {
-  RestangularProvider
-    .setBaseUrl('/api')
-    .setResponseExtractor(function (res) {
-      return res.result;
-    });
-});
+//// Set Restangular base URL.
+//ngModule.config(function (RestangularProvider) {
+//  RestangularProvider
+//    .setBaseUrl('/api')
+//    .setResponseExtractor(function (res) {
+//      return res.result;
+//    });
+//});
 
 ngModule.config(function ($stateProvider, $urlRouterProvider, layoutProvider) {
   $stateProvider
@@ -41,4 +46,28 @@ ngModule.config(function ($stateProvider, $urlRouterProvider, layoutProvider) {
         }
       }
     });
+});
+
+// Attach variables to $rootScope.
+ngModule.run(function ($location, $rootScope, $state, $stateParams, auth) {
+  _.assign($rootScope, {
+    _: _,
+    $: $,
+    $location: $location,
+    $state: $state,
+    $stateParams: $stateParams,
+    moment: moment,
+    user: auth.getUser()
+  });
+});
+
+// Loading spinner.
+ngModule.run(function ($rootScope, layout) {
+  var commonFunc = function (spinnerFunc, event, toState) {
+    if (!toState.resolve || _.isEmpty(toState.resolve)) { return; }
+    spinnerFunc();
+  };
+  $rootScope.$on('$stateChangeStart', _.wrap(layout.startSpinner, commonFunc));
+  $rootScope.$on('$stateChangeSuccess', _.wrap(layout.stopSpinner, commonFunc));
+  $rootScope.$on('$stateChangeError', _.wrap(layout.stopSpinner, commonFunc));
 });

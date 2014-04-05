@@ -1,14 +1,14 @@
 'use strict';
-                                         s
+
 exports.register = function (app, express) {
 
   var c = app.controllers,
-    error404 = app.lib.controller.error404;
+    error404 = app.utils.controller.error404;
 
   // Home
-  s.get('/', c.home.index);
+  express.get('/', c.home.index);
 
 
   // Catch all
-  s.get('*', app.lib.controller.catchAll);
+  express.get('*', app.utils.controller.catchAll);
 }

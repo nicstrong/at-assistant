@@ -59,7 +59,7 @@
     }
   },
   "session": {
-    "_use": "redis",
+    "_use": "mongo",
     "key": "sid",
     "secret": "UlTiMaTeSeCrEtKeY",
     "store": {

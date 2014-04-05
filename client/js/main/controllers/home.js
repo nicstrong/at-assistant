@@ -3,9 +3,10 @@
 exports = module.exports = function (ngModule) {
   ngModule.controller('HomeCtrl', function ($scope, features) {
     $scope.awesomeThings = [
-      'HTML5 Boilerplate',
+      'Node.js',
       'AngularJS',
-      'Karma'
+      'Browserify',
+      'Grunt'
     ];
   });
 };

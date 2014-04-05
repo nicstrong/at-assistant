@@ -2,13 +2,19 @@
 
 
 var _ = require('lodash'),
+  crypto = require('crypto'),
   express = require('express'),
   express3Handlebars = require('express3-handlebars'),
-  uuid = require('./util/uuid');
-
-
+  path = require('path'),
+  uuid = require('./../util/uuid');
 var _app = null,
   _server = null;
+
+var session = {
+  _use: require('./middleware/session/_use'),
+  mongo: require('./middleware/session/mongo'),
+  redis: require('./middleware/session/redis')
+};
 
 function _configure() {
   var hbs = express3Handlebars.create({
@@ -36,7 +42,10 @@ function _configure() {
     } else {
       _server.use(express.cookieParser());
     }
-    _server.use(express.bodyParser());
+
+    //_server.use(express.bodyParser());
+    _server.use(express.urlencoded())
+    _server.use(express.json())
 
     // Save received session cookie for later use.
     _server.use(function (req, res, next) {
@@ -88,7 +97,7 @@ function _configure() {
     });
 
     if (_.isFunction(_app.attachMiddlewares)) {
-      _app.attachMiddlewares();
+      _app.attachMiddlewares(_server);
     }
 
     // Set additional session cookie information.

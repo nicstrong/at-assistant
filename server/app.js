@@ -4,17 +4,25 @@ var util = require('util');
 
 var _ = require('lodash'),
   wrench = require('wrench'),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  mongooseTypes = require("mongoose-types"),
+  requireDir = require('require-dir'),
+  express = require('./server/express'),
+  http = require('./server/http'),
+  mongooseConnect = require('./db/mongoose/connect'),
+  glob = require('glob');
 
-var config = require.config(__dirname + '/../config');
+
+var config = require('./config')(__dirname + '/../config');
 
 // Create an app
 var app = {
   config: config,
   dir: __dirname,
+  mongoose: {},
   project: require('../project'),
   routes: require('./routes'),
-  server: {}
+  servers: {}
 };
 
 // Assign app to exports
@@ -35,23 +43,27 @@ _.defaults(app.config, {
   url: app.config.url || 'http://localhost:' + app.project.server.port
 });
 
+mongooseTypes.loadTypes(mongoose);
+var useTimestamps = mongooseTypes.useTimestamps;
+app.mongoose = mongoose;
+
 // Load modules
-app.lib = require(app.dir + '/lib');
-app.models = require(app.dir + '/models');
-app.views = fs.globSync(app.dir + '/views/**/*.html');
-app.controllers = require(app.dir + '/controllers');
+app.utils = requireDir(app.dir + '/util', { recurse: true });
+app.models = requireDir(app.dir + '/models', { recurse: true });
+app.views = glob.sync(app.dir + '/views/**/*.html');
+app.controllers = requireDir(app.dir + '/controllers', { recurse: true });
 
 app.attachMiddlewares = function (express) {
-  // Remove trailing slashes
-  express.middleware.removeTrailingSlashes.attach(app);
-
-  // Method override
-  express.middleware.methodOverride.attach(app);
-  // Hide Powered-by header
-  express.middleware.hidePoweredByHeader.attach(app);
-
-  // Cache bust
-  express.middleware.cachebust.attach(app);
+//  // Remove trailing slashes
+//  express.middleware.removeTrailingSlashes.attach(app);
+//
+//  // Method override
+//  express.middleware.methodOverride.attach(app);
+//  // Hide Powered-by header
+//  express.middleware.hidePoweredByHeader.attach(app);
+//
+//  // Cache bust
+//  express.middleware.cachebust.attach(app);
 
   // Custom
   app.servers.express.getServer().use(function (req, res, next) {
@@ -61,11 +73,17 @@ app.attachMiddlewares = function (express) {
       res.locals.livereload = app.project.server.livereload;
     }
     res.locals.user = req.user;
-    req.session.ultimate = req.session.ultimate || {};
+    req.session.atassistant = req.session.atassistant || {};
     next();
   });
 };
 
-mongoose.connect(app.config.db.mongo);
-// Start server
-app.servers.express.run(app);
+app.run = function () {
+  mongooseConnect.connect(mongoose, app.config.db.mongo);
+
+  // Start servers
+  express.run(app);
+  http.run(app)
+
+  return app.servers.http.getServer();
+}

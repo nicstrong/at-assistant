@@ -1,7 +1,8 @@
 
 'use strict';
 
-var angular = require('angular');
+var angular = require('angular'),
+  rhtml = require('rhtml');
 
 var ngModule = angular.module('app.main', []);
 
