@@ -7,7 +7,8 @@ exports.register = function (app, express) {
 
   // Home
   express.get('/', c.home.index);
-
+  express.get('/express', c.home.express);
+  express.get('/page', c.home.page);
 
   // Catch all
   express.get('*', app.utils.controller.catchAll);

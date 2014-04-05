@@ -5,6 +5,7 @@ var _ = require('lodash'),
   crypto = require('crypto'),
   express = require('express'),
   express3Handlebars = require('express3-handlebars'),
+  requireDir = require('require-dir'),
   path = require('path'),
   uuid = require('./../util/uuid');
 var _app = null,
@@ -20,6 +21,7 @@ function _configure() {
   var hbs = express3Handlebars.create({
     defaultLayout: 'default',
     extname: '.hbs',
+    helpers: requireDir(_app.dir + '/views/_helpers'),
 
     layoutsDir: _app.dir + '/views/_layouts',
     partialsDir: _app.dir + '/views/_partials'
