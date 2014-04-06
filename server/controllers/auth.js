@@ -1,5 +1,10 @@
+'use strict';
+
+var passport = require('passport'),
+  querystring = require('querystring');
+
 function google(req, res, next) {
-  req.session.googleauth.query = req.query;
+  req.session.google_auth_query = req.query;
   passport.authenticate('google', {
     scope: [
       'openid',
@@ -10,8 +15,8 @@ function google(req, res, next) {
 }
 
 function googleCallback(req, res, next) {
-  var qs = querystring.stringify(req.session.googleauth.query);
-  delete req.session.googleauth.query;
+  var qs = querystring.stringify(req.session.google_auth_query);
+  delete req.session.google_auth_query;
   passport.authenticate('google', {
     successRedirect: '/login' + (qs ? '?' + qs : ''),
     failureRedirect: '/login' + (qs ? '?' + qs : ''),

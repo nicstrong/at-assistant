@@ -5,6 +5,7 @@ var util = require('util');
 var _ = require('lodash'),
   wrench = require('wrench'),
   mongoose = require('mongoose'),
+  fs = require('fs'),
   mongooseTypes = require("mongoose-types"),
   requireDir = require('require-dir'),
   express = require('./server/express'),
@@ -50,7 +51,7 @@ app.mongoose = mongoose;
 
 // Load modules
 app.utils = requireDir(app.dir + '/util', { recurse: true });
-app.models = requireDir(app.dir + '/models', { recurse: true });
+app.models = requireDir(app.dir + '/models');
 app.views = glob.sync(app.dir + '/views/**/*.html');
 app.controllers = requireDir(app.dir + '/controllers', { recurse: true });
 
@@ -69,6 +70,17 @@ app.attachMiddlewares = function (express) {
   // Passport
   app.servers.express.getServer().use(passport.initialize());
   app.servers.express.getServer().use(passport.session());
+  app.servers.express.getServer().use(passport.session());
+
+  passport.serializeUser(function(user, done) {
+    done(null, user._id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    app.models.User.findById(id, function(err, user) {
+      done(err, user);
+    });
+  });
 
   // Passport strategies
   require('./server/middleware/passport/google').attach(app);

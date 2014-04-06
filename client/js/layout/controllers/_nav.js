@@ -9,20 +9,7 @@ var _ = require('lodash');
 var _o;
 
 function login() {
-  var params;
-
-  if (_o.$state.includes('app.login')) {
-    params = _o.$location.search();
-  } else {
-    params = {
-      s: _o.$state.current.name
-    };
-    if (!_.isEmpty(_o.$location.search())) {
-      params.sp = JSON.stringify(_o.$location.search());
-    }
-  }
-
-  _o.$state.go('app.login', params);
+  _o.auth.login();
 }
 
 function logout() {

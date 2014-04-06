@@ -138,21 +138,6 @@ function isAuthenticated() {
   return !_.isEmpty(_user);
 }
 
-function login(formData, redirect) {
-  return _o.Restangular.all('login').post(formData).then(
-    function (result) {
-      _setUser(result);
-
-      var data = _parseStateData(_o.$stateParams);
-      if (!_.isEmpty(data)) {
-        _o.$state.go(data.state, data.stateParams);
-      } else if (!!redirect) {
-        _o.$state.go('app.account.summary');
-      }
-    }
-  );
-}
-
 function login() {
   var qs = querystring.stringify(_o.$stateParams);
   global.location.href = '/auth/google' + (qs ? '?' + qs : '');

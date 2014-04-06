@@ -2,6 +2,7 @@
 
 var _ = require('lodash'),
   passport = require('passport'),
+  User = require('../../../models/User'),
   passportGoogleOAuth = require('passport-google-oauth');
 
 var _app = null;
@@ -28,7 +29,15 @@ function _attachStrategy(googleConfig, baseUrl) {
     clientSecret: googleConfig.clientSecret,
     callbackURL: baseUrl + '/auth/google/callback'
   }, function (accessToken, refreshToken, profile, done) {
+    var a = _app;
+    var m = _app.models;
+    var u = _app.models.User;
+    var f = _app.models.User.findOrCreateGoogle;
+
+    var u2 = User;
+
     _app.models.User.findOrCreateGoogle(accessToken, refreshToken, profile, done);
+    //User.findOrCreateGoogle(accessToken, refreshToken, profile, done);
   }));
 }
 
