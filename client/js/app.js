@@ -48,14 +48,24 @@ ngModule.config(function ($stateProvider, $urlRouterProvider, layoutProvider) {
     });
 });
 
+
+// Load user from global variable sent from server.
+ngModule.config(function (authProvider) {
+  if (_.isPlainObject(global.config) && global.config.user) {
+    authProvider.initUser(global.config.user);
+  }
+});
+
 // Attach variables to $rootScope.
-ngModule.run(function ($location, $rootScope, $state, $stateParams, auth) {
+ngModule.run(function ($location, $rootScope, $state, $stateParams, app, auth) {
   _.assign($rootScope, {
     _: _,
     $: $,
     $location: $location,
     $state: $state,
     $stateParams: $stateParams,
+    app: app,
+    config: app.config,
     moment: moment,
     user: auth.getUser()
   });

@@ -11,7 +11,7 @@ var _o;
 function login() {
   var params;
 
-  if (_o.$state.includes('app.login') || _o.$state.includes('app.register')) {
+  if (_o.$state.includes('app.login')) {
     params = _o.$location.search();
   } else {
     params = {
@@ -30,22 +30,6 @@ function logout() {
   _o.auth.logout().finally(_o.layout.stopSpinner);
 }
 
-function register() {
-  var params;
-
-  if (_o.$state.includes('app.register') || _o.$state.includes('app.login')) {
-    params = _o.$location.search();
-  } else {
-    params = {
-      s: _o.$state.current.name
-    };
-    if (!_.isEmpty(_o.$location.search())) {
-      params.sp = JSON.stringify(_o.$location.search());
-    }
-  }
-
-  _o.$state.go('app.register', params);
-}
 
 exports = module.exports = function (ngModule) {
   ngModule.controller('_NavCtrl', function ($location, $scope, $state, auth, layout) {
@@ -59,8 +43,7 @@ exports = module.exports = function (ngModule) {
 
     _.assign($scope, {
       login: login,
-      logout: logout,
-      register: register
+      logout: logout
     });
   });
 };

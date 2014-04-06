@@ -10,6 +10,11 @@ exports.register = function (app, express) {
   express.get('/express', c.home.express);
   express.get('/page', c.home.page);
 
+  // Auth
+  express.get('/auth/google', c.auth.google);
+  express.get('/auth/google/callback', c.auth.googleCallback);
+
+
   // Catch all
   express.get('*', app.utils.controller.catchAll);
 }

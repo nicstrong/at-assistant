@@ -13,6 +13,6 @@ require('./directives/focus')(ngModule);
 
 // Services
 require('./services/alert')(ngModule);
-//require('./services/app')(ngModule);
+require('./services/app')(ngModule);
 require('./services/route')(ngModule);
 require('./services/util')(ngModule);

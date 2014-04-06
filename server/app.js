@@ -8,6 +8,7 @@ var _ = require('lodash'),
   mongooseTypes = require("mongoose-types"),
   requireDir = require('require-dir'),
   express = require('./server/express'),
+  passport = require('passport'),
   http = require('./server/http'),
   mongooseConnect = require('./db/mongoose/connect'),
   glob = require('glob');
@@ -64,6 +65,13 @@ app.attachMiddlewares = function (express) {
 //
 //  // Cache bust
 //  express.middleware.cachebust.attach(app);
+
+  // Passport
+  app.servers.express.getServer().use(passport.initialize());
+  app.servers.express.getServer().use(passport.session());
+
+  // Passport strategies
+  require('./server/middleware/passport/google').attach(app);
 
   // Custom
   app.servers.express.getServer().use(function (req, res, next) {

@@ -20,9 +20,9 @@ function _initConfig() {
   }
 
   // Set cookie defaults
-  if (_.isUndefined($cookieStore.get('test'))) {
+  //if (_.isUndefined($cookieStore.get('test'))) {
     $cookieStore.put('test', 'at-assistant');
-  }
+  //}
 
   // Config defaults.
   config = _.defaults(config, {

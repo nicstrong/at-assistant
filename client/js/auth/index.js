@@ -5,13 +5,12 @@
 'use strict';
 
 var angular = require('angular'),
-    rhtml = require('rhtml');
+  rhtml = require('rhtml');
 
 var ngModule = angular.module('app.auth', []);
 
 // Controllers
 require('./controllers/login')(ngModule);
-require('./controllers/register')(ngModule);
 
 // Services
 require('./services/auth')(ngModule);
@@ -25,15 +24,6 @@ ngModule.config(function ($stateProvider) {
         '@': {
           controller: 'LoginCtrl',
           template: rhtml('./templates/login.html')
-        }
-      }
-    })
-    .state('app.register', {
-      url: '/register?s&sp',
-      views: {
-        '@': {
-          controller: 'RegisterCtrl',
-          template: rhtml('./templates/register.html')
         }
       }
     });
@@ -53,10 +43,6 @@ ngModule.run(function (route) {
 ngModule.run(function (auth) {
   auth.authorize({
     'app.login': {
-      deny: ['user'],
-      redirect: 'app.account.summary'
-    },
-    'app.register': {
       deny: ['user'],
       redirect: 'app.account.summary'
     }

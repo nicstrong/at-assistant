@@ -8,7 +8,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="//github.com/pilwon/ultimate-seed">ultimate-seed</a>
+      <a class="navbar-brand" href="#">
+          <img class="navbar-icon" src="https://at-api.aucklandtransport.govt.nz/imageresizer/website/logo.png?width=25"/>
+          <span>Assistant</span>
+      </a>
     </div>
 
     <div class="collapse navbar-collapse">
@@ -69,22 +72,16 @@
             </li>
           </ul>
         </li>
-        <li class="dropdown" ng-class="{ active: $state.includes('app.login') || $state.includes('app.register') }" ng-if="!user.isLoggedIn()">
+        <li class="dropdown" ng-class="{ active: $state.includes('app.login') }" ng-if="!user.isLoggedIn()">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <span class="glyphicon glyphicon-lock"></span>
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu">
-            <li ng-class="{ active: $state.includes('app.login') }">
+             <li ng-class="{ active: $state.includes('app.login') }">
               <a href="" ng-click="login()">
                 <span class="glyphicon glyphicon-user"></span>
                 Login
-              </a>
-            </li>
-            <li ng-class="{ active: $state.includes('app.register') }">
-              <a href="" ng-click="register()">
-                <span class="glyphicon glyphicon-pencil"></span>
-                Register
               </a>
             </li>
           </ul>
