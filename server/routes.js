@@ -12,6 +12,8 @@ exports.register = function (app, express) {
   express.get('/api/tests', c.api.test.tests);
   express.get('/api/test/:id', c.api.test.test);
 
+  express.get('/api/user/:userId/calendars/all', c.api.calendar.calendarsAll);
+
 
   express.post('/api/logout', c.api.auth.logout);
   express.get('/api/me', c.api.auth.me);

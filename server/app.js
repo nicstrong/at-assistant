@@ -71,12 +71,12 @@ app.attachMiddlewares = function (express) {
   app.servers.express.getServer().use(passport.initialize());
   app.servers.express.getServer().use(passport.session());
 
-  passport.serializeUser(function(user, done) {
+  passport.serializeUser(function (user, done) {
     done(null, user._id);
   });
 
-  passport.deserializeUser(function(id, done) {
-    app.models.User.findById(id, function(err, user) {
+  passport.deserializeUser(function (id, done) {
+    app.models.User.findById(id, function (err, user) {
       done(err, user);
     });
   });
@@ -95,7 +95,7 @@ app.attachMiddlewares = function (express) {
     req.session.atassistant = req.session.atassistant || {};
     next();
   });
-};
+}
 
 app.run = function () {
   mongooseConnect.connect(mongoose, app.config.db.mongo);
