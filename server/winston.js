@@ -48,6 +48,11 @@ function _attachExpressLogger() {
 
   server.use(expressWinston.logger({
     transports: [
+      new (winston.transports.Console)({
+        colorize: true,
+        label: 'express',
+        level: logLevels.console
+      }),
       new (winston.transports.File)({
         level: logLevels.file,
         filename: path.join(_app.project.path.log, 'express.log'),

@@ -70,7 +70,6 @@ app.attachMiddlewares = function (express) {
   // Passport
   app.servers.express.getServer().use(passport.initialize());
   app.servers.express.getServer().use(passport.session());
-  app.servers.express.getServer().use(passport.session());
 
   passport.serializeUser(function(user, done) {
     done(null, user._id);

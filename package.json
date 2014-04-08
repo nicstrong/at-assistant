@@ -22,7 +22,8 @@
     "passport": "~0.2.0",
     "passport-google-oauth": "~0.1.5",
     "querystring": "~0.2.0",
-    "mongoose-findorcreate": "~0.1.2"
+    "mongoose-findorcreate": "~0.1.2",
+    "string": "~1.8.0"
   },
   "devDependencies": {
     "coffeeify": "0.5.2",

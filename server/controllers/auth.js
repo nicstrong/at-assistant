@@ -18,8 +18,8 @@ function googleCallback(req, res, next) {
   var qs = querystring.stringify(req.session.google_auth_query);
   delete req.session.google_auth_query;
   passport.authenticate('google', {
-    successRedirect: '/login' + (qs ? '?' + qs : ''),
-    failureRedirect: '/login' + (qs ? '?' + qs : ''),
+    successRedirect: '/' + (qs ? '?' + qs : ''),
+    failureRedirect: '/' + (qs ? '?' + qs : ''),
     failureFlash: true
   })(req, res, next);
 }

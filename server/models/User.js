@@ -17,10 +17,6 @@ var schema = new mongoose.Schema({
   },
   accessToken: { type: String },
   auth: {
-    local: {
-      username: { type: mongoose.SchemaTypes.Email },
-      password: { type: String }
-    },
     google: {
       id: { type: String },
       token: { type: String },
@@ -32,7 +28,6 @@ var schema = new mongoose.Schema({
 // Indexes
 schema.path('email').index({ unique: true });
 schema.path('accessToken').index({ unique: true });
-schema.path('auth.local.username').index({ unique: true, sparse: true });
 schema.path('auth.google.id').index({ unique: true, sparse: true });
 
 // Virtuals
@@ -69,6 +64,22 @@ schema.pre('save', function (next) {
     });
   });
 });
+
+// Safe JSON (internal data removed)
+schema.methods.getSafeJSON = function () {
+  var user = this.toJSON();
+
+  user.id = user._id;
+  delete user._id;
+  delete user.__v;
+  delete user.accessToken;
+
+  if (user.auth.google) {
+    delete user.auth.google.token;
+  }
+
+  return user;
+};
 
 schema.statics.findOrCreateGoogle = function (accessToken, refreshToken, profile, cb) {
   // console.log(profile._json);

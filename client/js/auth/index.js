@@ -10,7 +10,7 @@ var angular = require('angular'),
 var ngModule = angular.module('app.auth', []);
 
 // Controllers
-require('./controllers/login')(ngModule);
+//require('./controllers/login')(ngModule);
 
 // Services
 require('./services/auth')(ngModule);

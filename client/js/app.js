@@ -26,14 +26,14 @@ ngModule.config(function ($locationProvider) {
   $locationProvider.html5Mode(true);
 });
 
-//// Set Restangular base URL.
-//ngModule.config(function (RestangularProvider) {
-//  RestangularProvider
-//    .setBaseUrl('/api')
-//    .setResponseExtractor(function (res) {
-//      return res.result;
-//    });
-//});
+// Set Restangular base URL.
+ngModule.config(function (RestangularProvider) {
+  RestangularProvider
+    .setBaseUrl('/api')
+    .setResponseExtractor(function (res) {
+      return res;
+    });
+});
 
 ngModule.config(function ($stateProvider, $urlRouterProvider, layoutProvider) {
   $stateProvider

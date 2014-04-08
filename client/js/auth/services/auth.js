@@ -186,7 +186,7 @@ exports = module.exports = function (ngModule) {
         hasRole: hasRole,
         isAuthenticated: isAuthenticated,
         login: login,
-        logout: logout,
+        logout: logout
       };
     }];
   });
