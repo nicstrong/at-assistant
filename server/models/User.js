@@ -2,6 +2,7 @@
 
 var util = require('util');
 var _ = require('lodash'),
+  Calendar = require('./Calendar'),
   mongooseFindOrCreate = require('mongoose-findorcreate');
 
 
@@ -22,7 +23,8 @@ var schema = new mongoose.Schema({
       token: { type: String },
       profile: { type: mongoose.SchemaTypes.Mixed }
     }
-  }
+  },
+  calendars: [ Calendar.schema ]
 });
 
 // Indexes
